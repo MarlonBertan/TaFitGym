@@ -51,7 +51,8 @@ flask --app wsgi.py run
 2. No Render, crie um Web Service conectado ao repositorio.
 3. Use:
    - Build command: `pip install -r requirements.txt`
-   - Start command: `flask --app wsgi.py db upgrade && gunicorn wsgi:app`
+   - Pre-deploy command: `flask --app wsgi.py db upgrade`
+   - Start command: `gunicorn wsgi:app`
 4. Adicione as variaveis:
    - `DATABASE_URL`: string do Neon com `sslmode=require`
    - `SECRET_KEY`: uma chave segura
