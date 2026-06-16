@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Gerar mensalidades</h1>
+  <a class="btn btn-outline-secondary" href="{{ url_for('finance.index') }}">Voltar</a>
+</div>
+
+<form method="post" class="form-surface narrow-form">
+  <div class="mb-3">
+    <label class="form-label">Aluno</label>
+    <select class="form-select" name="student_id" required>
+      <option value="">Selecione</option>
+      {% for student in students %}
+        <option value="{{ student.id }}">{{ student.name }} - R$ {{ "%.2f"|format(student.monthly_fee) }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Mes inicial</label>
+    <input class="form-control" type="month" name="start_month" required>
+  </div>
+  <div class="mb-4">
+    <label class="form-label">Quantidade de meses</label>
+    <input class="form-control" type="number" min="1" max="24" name="quantity" value="12" required>
+  </div>
+  <button class="btn btn-primary" type="submit">Gerar</button>
+</form>
+{% endblock %}

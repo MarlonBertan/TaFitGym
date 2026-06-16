@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+  <div>
+    <h1 class="h3 mb-1">Painel financeiro</h1>
+    <p class="text-body-secondary mb-0">Visao geral dos alunos e mensalidades.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-primary" href="{{ url_for('students.create') }}">Novo aluno</a>
+    <a class="btn btn-primary" href="{{ url_for('finance.generate') }}">Gerar mensalidades</a>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="metric">
+      <span>Alunos ativos</span>
+      <strong>{{ totals.active_students }}</strong>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="metric">
+      <span>Total de alunos</span>
+      <strong>{{ totals.students }}</strong>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="metric">
+      <span>Em aberto</span>
+      <strong>{{ totals.open }}</strong>
+    </div>
+  </div>
+  <div class="col-12 col-sm-6 col-xl-3">
+    <div class="metric">
+      <span>Competencia atual</span>
+      <strong>R$ {{ "%.2f"|format(totals.month_amount or 0) }}</strong>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h2 class="h5 mb-0">Vencidas</h2>
+    <a class="link-primary" href="{{ url_for('finance.index') }}">Ver financeiro</a>
+  </div>
+  <div class="table-responsive border rounded">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Aluno</th>
+          <th>Competencia</th>
+          <th>Vencimento</th>
+          <th>Valor</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in overdue %}
+          <tr>
+            <td>{{ item.student.name }}</td>
+            <td>{{ item.reference_month.strftime("%m/%Y") }}</td>
+            <td>{{ item.due_date.strftime("%d/%m/%Y") }}</td>
+            <td>R$ {{ "%.2f"|format(item.amount) }}</td>
+            <td><span class="badge text-bg-danger">{{ item.status_label }}</span></td>
+          </tr>
+        {% else %}
+          <tr><td colspan="5" class="text-center text-body-secondary py-4">Nenhuma mensalidade vencida.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+{% set address = student.address %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">{{ "Editar aluno" if student.id else "Novo aluno" }}</h1>
+  <a class="btn btn-outline-secondary" href="{{ url_for('students.index') }}">Voltar</a>
+</div>
+
+<form method="post" class="form-surface">
+  <h2 class="h5">Dados principais</h2>
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-lg-5">
+      <label class="form-label">Nome</label>
+      <input class="form-control" name="name" value="{{ student.name or '' }}" required>
+    </div>
+    <div class="col-12 col-md-4 col-lg-2">
+      <label class="form-label">CPF/CNPJ</label>
+      <input class="form-control" name="document" value="{{ student.document or '' }}" required>
+    </div>
+    <div class="col-12 col-md-4 col-lg-2">
+      <label class="form-label">Nascimento</label>
+      <input class="form-control" type="date" name="birth_date" value="{{ student.birth_date.isoformat() if student.birth_date else '' }}">
+    </div>
+    <div class="col-6 col-md-2 col-lg-1">
+      <label class="form-label">Dia</label>
+      <input class="form-control" type="number" min="1" max="31" name="payment_day" value="{{ student.payment_day or 10 }}" required>
+    </div>
+    <div class="col-6 col-md-2 col-lg-2">
+      <label class="form-label">Mensalidade</label>
+      <input class="form-control" name="monthly_fee" value="{{ student.monthly_fee or '' }}" required>
+    </div>
+    <div class="col-12">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" name="active" id="active" {{ "checked" if student.active or not student.id else "" }}>
+        <label class="form-check-label" for="active">Ativo</label>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="h5">Endereco</h2>
+  <div class="row g-3">
+    <div class="col-12 col-md-2">
+      <label class="form-label">CEP</label>
+      <input class="form-control" name="zip_code" value="{{ address.zip_code if address else '' }}" onblur="fetchCep(this)">
+    </div>
+    <div class="col-12 col-md-5">
+      <label class="form-label">Rua</label>
+      <input class="form-control" name="street" value="{{ address.street if address else '' }}">
+    </div>
+    <div class="col-6 col-md-2">
+      <label class="form-label">Numero</label>
+      <input class="form-control" name="number" value="{{ address.number if address else '' }}">
+    </div>
+    <div class="col-6 col-md-3">
+      <label class="form-label">Bairro</label>
+      <input class="form-control" name="district" value="{{ address.district if address else '' }}">
+    </div>
+    <div class="col-12 col-md-4">
+      <label class="form-label">Complemento</label>
+      <input class="form-control" name="complement" value="{{ address.complement if address else '' }}">
+    </div>
+    <div class="col-8 col-md-4">
+      <label class="form-label">Cidade</label>
+      <input class="form-control" name="city" value="{{ address.city if address else '' }}">
+    </div>
+    <div class="col-4 col-md-1">
+      <label class="form-label">UF</label>
+      <input class="form-control" name="state" value="{{ address.state if address else '' }}" maxlength="2">
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <button class="btn btn-primary" type="submit">Salvar</button>
+  </div>
+</form>
+{% endblock %}

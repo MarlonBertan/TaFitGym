@@ -1,0 +1,43 @@
+body {
+  background: #f7f8fa;
+  color: #20242a;
+}
+
+.navbar {
+  min-height: 60px;
+}
+
+.metric,
+.form-surface {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+}
+
+.metric {
+  padding: 18px;
+}
+
+.metric span {
+  color: #65717f;
+  display: block;
+  font-size: 0.9rem;
+}
+
+.metric strong {
+  display: block;
+  font-size: 1.8rem;
+  margin-top: 4px;
+}
+
+.form-surface {
+  padding: 22px;
+}
+
+.narrow-form {
+  max-width: 560px;
+}
+
+.table {
+  background: #fff;
+}
